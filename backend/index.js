@@ -1,10 +1,10 @@
-
 const express = require("express")
 const cors =require("cors")
 const mongoose = require("mongoose")
 require("dotenv").config() 
 const authRoutes=require("./routes/auth.js")
 const productRoutes=require("./routes/product.js")
+const cartRoutes=require("./routes/cart.js")
 const app = express() 
 const port=4000
 
@@ -24,6 +24,7 @@ mongoose.connect(process.env.MONGODB_URL)
 // console.log(authRoutes)
 app.use("/api",authRoutes)
 app.use("/api/product",productRoutes)
+app.use("/api/cart",cartRoutes)
 
 app.get("/",(req,res)=>{
     console.log("get route")
