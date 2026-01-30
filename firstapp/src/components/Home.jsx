@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export default function Home() {
   const [products, setProducts] = useState([])
@@ -22,9 +23,14 @@ export default function Home() {
       {productId, quantity:1}, 
       {params:{userId}
     })
+    
       .then(res=>{
         if(res.status==200){
-          alert("Product added successfully to cart")
+          Swal.fire({
+  title: "Good job!",
+  text: "You clicked the button!",
+  icon: "success"
+});
           navigate("/cart")
         }
         else{
