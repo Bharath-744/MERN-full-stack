@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaShoppingCart } from 'react-icons/fa';   // ✅ Cart icon
+import { useNavigate } from 'react-router-dom';   // ✅ Navigation
 
 export default function Cart() {
   const [cart, setCart] = useState(null);
@@ -9,6 +11,7 @@ export default function Cart() {
   const [coupon, setCoupon] = useState('');
   const [discount, setDiscount] = useState(0);
   const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCart();
@@ -103,7 +106,22 @@ export default function Cart() {
   return (
     <div className='container mt-4'>
       <ToastContainer />
-      <h2>Your Cart</h2>
+
+      {/* ✅ Top header with cart icon + blue continue shopping button */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>
+          <FaShoppingCart size={24} style={{ marginRight: '8px', color: '#007bff' }} />
+          Your Cart
+        </h2>
+        <button 
+          type="button" 
+          className="btn btn-primary"   // 🔵 Blue button
+          onClick={() => navigate("/")} // navigate to homepage
+        >
+          Continue Shopping
+        </button>
+      </div>
+
       {
         loading ? (<p>Loading...</p>) : (
           !cart || cart.items.length === 0 ? (
