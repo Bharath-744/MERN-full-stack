@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { FaShoppingCart } from 'react-icons/fa'   // shopping cart icon
+import { MdStorefront } from 'react-icons/md'     // storefront icon
 
 export default function Home() {
   const [products, setProducts] = useState([])
@@ -23,7 +25,7 @@ export default function Home() {
       return
     }
 
-    axios.post("http://localhost:4000/api/cart/add",
+    axios.post("https://mern-full-stack-ieud.onrender.com/api/cart/add",
       { productId, quantity: 1 },
       { params: { userId } }
     )
@@ -43,7 +45,7 @@ export default function Home() {
 
   async function fetchProducts() {
     try {
-      const res = await axios.get("http://localhost:4000/api/product")
+      const res = await axios.get("https://mern-full-stack-ieud.onrender.com/api/product")
       if (res.status === 200) {
         setProducts(res.data)
       }
@@ -63,7 +65,18 @@ export default function Home() {
   return (
     <div className='container mt-4'>
       <ToastContainer />
-      <h2>Products</h2>
+
+      {/* ✅ Welcome header with icons */}
+      <div className="text-center mb-4">
+        <h1>
+          <MdStorefront className="me-2 text-primary" />
+          Welcome to My Shop
+          <FaShoppingCart className="ms-2 text-warning" />
+        </h1>
+        <p className="text-muted">Find the best products at great prices!</p>
+      </div>
+
+      {/* ✅ Search bar */}
       <input
         type="text"
         className="form-control mb-3"
@@ -71,6 +84,7 @@ export default function Home() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+
       {
         loading ? (<p>Loading...</p>) : (
           filteredProducts.length === 0 ? (
@@ -91,12 +105,13 @@ export default function Home() {
                             {i.stock > 0 ? `${i.stock} available` : 'Out of Stock'}
                           </span>
                         </p>
-                        <p className="card-text"><b>Rating:</b> ⭐⭐⭐⭐☆</p>
                         {
                           role === "admin" ? (
                             <button onClick={() => deleteProduct(i._id)} className='btn btn-danger'>Delete</button>
                           ) : (
-                            <button onClick={() => addToCart(i._id)} className='btn btn-warning text-white'>Add to Cart</button>
+                            <button onClick={() => addToCart(i._id)} className='btn btn-warning text-white'>
+                              <FaShoppingCart className="me-2" /> Add to Cart
+                            </button>
                           )
                         }
                       </div>
